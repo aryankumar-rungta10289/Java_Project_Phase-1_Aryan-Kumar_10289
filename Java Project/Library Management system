@@ -1,0 +1,112 @@
+import java.util.Scanner;
+
+// Book Class
+class Book {
+    String title;
+    String author;
+    boolean isAvailable;
+
+    // Constructor
+    Book(String title, String author) {
+        this.title = title;   // this keyword
+        this.author = author;
+        this.isAvailable = true;
+    }
+
+    // Method to display book
+    void display() {
+        System.out.println("Title: " + title +
+                ", Author: " + author +
+                ", Available: " + isAvailable);
+    }
+}
+
+// Main Class
+public class LibrarySystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Array of books (basic usage)
+        Book[] books = new Book[5];
+
+        // Adding books using constructor
+        books[0] = new Book("Java", "James Gosling");
+        books[1] = new Book("Python", "Guido");
+        books[2] = new Book("C++", "Bjarne");
+        books[3] = new Book("DBMS", "Navathe");
+        books[4] = new Book("OS", "Galvin");
+
+        int choice;
+
+        do {
+            System.out.println("\n--- Library Menu ---");
+            System.out.println("1. Display Books");
+            System.out.println("2. Search Book");
+            System.out.println("3. Issue Book");
+            System.out.println("4. Return Book");
+            System.out.println("5. Exit");
+
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // clear buffer
+
+            // Display Books
+            if (choice == 1) {
+                for (int i = 0; i < books.length; i++) {
+                    books[i].display();
+                }
+            }
+
+            // Search Book
+            else if (choice == 2) {
+                System.out.print("Enter book title: ");
+                String name = sc.nextLine();
+
+                boolean found = false;
+
+                for (int i = 0; i < books.length; i++) {
+                    if (books[i].title.equalsIgnoreCase(name)) {
+                        books[i].display();
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    System.out.println("Book not found");
+                }
+            }
+
+            // Issue Book
+            else if (choice == 3) {
+                System.out.print("Enter book title to issue: ");
+                String name = sc.nextLine();
+
+                for (int i = 0; i < books.length; i++) {
+                    if (books[i].title.equalsIgnoreCase(name)) {
+                        if (books[i].isAvailable) {
+                            books[i].isAvailable = false;
+                            System.out.println("Book issued");
+                        } else {
+                            System.out.println("Already issued");
+                        }
+                    }
+                }
+            }
+
+            // Return Book
+            else if (choice == 4) {
+                System.out.print("Enter book title to return: ");
+                String name = sc.nextLine();
+
+                for (int i = 0; i < books.length; i++) {
+                    if (books[i].title.equalsIgnoreCase(name)) {
+                        books[i].isAvailable = true;
+                        System.out.println("Book returned");
+                    }
+                }
+            }
+
+        } while (choice != 5);
+
+        System.out.println("Thank you!");
+    }

@@ -1,112 +1,143 @@
-import java.util.Scanner;
-
 // Book Class
 class Book {
-    String title;
-    String author;
-    boolean isAvailable;
+    private String title;
+    private String author;
+    private boolean isAvailable;
 
     // Constructor
-    Book(String title, String author) {
-        this.title = title;   // this keyword
+    public Book(String title, String author) {
+        this.title = title;
         this.author = author;
-        this.isAvailable = true;
+        this.isAvailable = true; // default available
     }
 
-    // Method to display book
-    void display() {
-        System.out.println("Title: " + title +
-                ", Author: " + author +
-                ", Available: " + isAvailable);
+    // Getter methods
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    // Setter method for availability
+    public void setAvailable(boolean status) {
+        this.isAvailable = status;
+    }
+
+    // Display book details
+    public void displayBook() {
+        System.out.println(title + " by " + author + " - " + 
+            (isAvailable ? "Available" : "Issued"));
+    }
+}
+
+// Library Class
+class Library {
+    private Book[] books;
+
+    // Constructor
+    public Library() {
+        books = new Book[5];
+
+        // Initialize sample books
+        books[0] = new Book("Java Basics", "James Gosling");
+        books[1] = new Book("Data Structures", "Mark Allen Weiss");
+        books[2] = new Book("Operating Systems", "Galvin");
+        books[3] = new Book("Computer Networks", "Tanenbaum");
+        books[4] = new Book("DBMS", "Korth");
+    }
+
+    // Display all books
+    public void displayBooks() {
+        System.out.println("\nAvailable Books:");
+        for (Book book : books) {
+            book.displayBook();
+        }
+    }
+
+    // Search book by title
+    public void searchBook(String title) {
+        boolean found = false;
+
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                System.out.println("\nBook Found:");
+                book.displayBook();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("\nBook not found.");
+        }
+    }
+
+    // Issue Book
+    public void issueBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+
+                if (book.isAvailable()) {
+                    book.setAvailable(false);
+                    System.out.println("\nBook issued successfully.");
+                } else {
+                    System.out.println("\nBook is already issued.");
+                }
+                return;
+            }
+        }
+        System.out.println("\nBook not found.");
+    }
+
+    // Return Book
+    public void returnBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+
+                if (!book.isAvailable()) {
+                    book.setAvailable(true);
+                    System.out.println("\nBook returned successfully.");
+                } else {
+                    System.out.println("\nBook was not issued.");
+                }
+                return;
+            }
+        }
+        System.out.println("\nBook not found.");
     }
 }
 
 // Main Class
-public class LibrarySystem {
+public class LibraryManagementSystem {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        // Array of books (basic usage)
-        Book[] books = new Book[5];
+        Library library = new Library();
 
-        // Adding books using constructor
-        books[0] = new Book("Java", "James Gosling");
-        books[1] = new Book("Python", "Guido");
-        books[2] = new Book("C++", "Bjarne");
-        books[3] = new Book("DBMS", "Navathe");
-        books[4] = new Book("OS", "Galvin");
+        // Display books
+        library.displayBooks();
 
-        int choice;
+        // Search book
+        library.searchBook("Java Basics");
 
-        do {
-            System.out.println("\n--- Library Menu ---");
-            System.out.println("1. Display Books");
-            System.out.println("2. Search Book");
-            System.out.println("3. Issue Book");
-            System.out.println("4. Return Book");
-            System.out.println("5. Exit");
+        // Issue book
+        System.out.println("\nIssuing Book: Java Basics");
+        library.issueBook("Java Basics");
 
-            System.out.print("Enter choice: ");
-            choice = sc.nextInt();
-            sc.nextLine(); // clear buffer
+        // Try issuing again
+        System.out.println("\nIssuing Book: Java Basics");
+        library.issueBook("Java Basics");
 
-            // Display Books
-            if (choice == 1) {
-                for (int i = 0; i < books.length; i++) {
-                    books[i].display();
-                }
-            }
+        // Return book
+        System.out.println("\nReturning Book: Java Basics");
+        library.returnBook("Java Basics");
 
-            // Search Book
-            else if (choice == 2) {
-                System.out.print("Enter book title: ");
-                String name = sc.nextLine();
-
-                boolean found = false;
-
-                for (int i = 0; i < books.length; i++) {
-                    if (books[i].title.equalsIgnoreCase(name)) {
-                        books[i].display();
-                        found = true;
-                    }
-                }
-
-                if (!found) {
-                    System.out.println("Book not found");
-                }
-            }
-
-            // Issue Book
-            else if (choice == 3) {
-                System.out.print("Enter book title to issue: ");
-                String name = sc.nextLine();
-
-                for (int i = 0; i < books.length; i++) {
-                    if (books[i].title.equalsIgnoreCase(name)) {
-                        if (books[i].isAvailable) {
-                            books[i].isAvailable = false;
-                            System.out.println("Book issued");
-                        } else {
-                            System.out.println("Already issued");
-                        }
-                    }
-                }
-            }
-
-            // Return Book
-            else if (choice == 4) {
-                System.out.print("Enter book title to return: ");
-                String name = sc.nextLine();
-
-                for (int i = 0; i < books.length; i++) {
-                    if (books[i].title.equalsIgnoreCase(name)) {
-                        books[i].isAvailable = true;
-                        System.out.println("Book returned");
-                    }
-                }
-            }
-
-        } while (choice != 5);
-
-        System.out.println("Thank you!");
+        // Final list
+        library.displayBooks();
     }
+}

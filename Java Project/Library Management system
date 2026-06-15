@@ -1,17 +1,15 @@
-// Book Class
 class Book {
     private String title;
     private String author;
     private boolean isAvailable;
 
-    // Constructor
     public Book(String title, String author) {
         this.title = title;
         this.author = author;
         this.isAvailable = true; // default available
     }
 
-    // Getter methods
+
     public String getTitle() {
         return title;
     }
@@ -24,27 +22,27 @@ class Book {
         return isAvailable;
     }
 
-    // Setter method for availability
+    
     public void setAvailable(boolean status) {
         this.isAvailable = status;
     }
 
-    // Display book details
+    
     public void displayBook() {
         System.out.println(title + " by " + author + " - " + 
             (isAvailable ? "Available" : "Issued"));
     }
 }
 
-// Library Class
+
 class Library {
     private Book[] books;
 
-    // Constructor
+    
     public Library() {
         books = new Book[5];
 
-        // Initialize sample books
+        
         books[0] = new Book("Java Basics", "James Gosling");
         books[1] = new Book("Data Structures", "Mark Allen Weiss");
         books[2] = new Book("Operating Systems", "Galvin");
@@ -52,7 +50,7 @@ class Library {
         books[4] = new Book("DBMS", "Korth");
     }
 
-    // Display all books
+    
     public void displayBooks() {
         System.out.println("\nAvailable Books:");
         for (Book book : books) {
@@ -60,7 +58,7 @@ class Library {
         }
     }
 
-    // Search book by title
+    
     public void searchBook(String title) {
         boolean found = false;
 
@@ -78,7 +76,7 @@ class Library {
         }
     }
 
-    // Issue Book
+    
     public void issueBook(String title) {
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
@@ -95,7 +93,7 @@ class Library {
         System.out.println("\nBook not found.");
     }
 
-    // Return Book
+    
     public void returnBook(String title) {
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
@@ -113,31 +111,30 @@ class Library {
     }
 }
 
-// Main Class
+
 public class LibraryManagementSystem {
     public static void main(String[] args) {
 
         Library library = new Library();
 
-        // Display books
+        
         library.displayBooks();
 
-        // Search book
+        
         library.searchBook("Java Basics");
 
-        // Issue book
+        
         System.out.println("\nIssuing Book: Java Basics");
         library.issueBook("Java Basics");
 
-        // Try issuing again
+        
         System.out.println("\nIssuing Book: Java Basics");
         library.issueBook("Java Basics");
 
-        // Return book
+        
         System.out.println("\nReturning Book: Java Basics");
         library.returnBook("Java Basics");
 
-        // Final list
         library.displayBooks();
     }
 }
